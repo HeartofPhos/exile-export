@@ -1,0 +1,3 @@
+BaseItemTypes.dat
+QuestRewards.dat
+Characters.dat

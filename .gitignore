@@ -1,5 +1,6 @@
 data/*
 !data/start.ps1
 !data/file-list.txt
+!data/dat-list.txt
 
 .env

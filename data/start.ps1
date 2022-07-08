@@ -15,4 +15,6 @@ pypoe_exporter config set temp_dir ./temp_dir
 pypoe_exporter config set ggpk_path ./game
 pypoe_exporter setup perform
 
-pypoe_exporter dat json ./out.json --files QuestRewards.dat
+$dat_list = Get-Content ./dat-list.txt
+
+pypoe_exporter dat json ./out.json --files $dat_list
