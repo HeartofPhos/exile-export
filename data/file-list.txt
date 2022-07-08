@@ -1,2 +1,1 @@
-Bundles2/_.index.bin
-regex:Bundles2\/.*\.dat.*
+regex:Bundles2\/(Data|Metadata|_\.index|_Preload|_Startup|_Tiny|_Login).*
