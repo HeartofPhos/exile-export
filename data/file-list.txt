@@ -1,0 +1,2 @@
+Bundles2/_.index.bin
+regex:Bundles2\/.*\.dat.*
