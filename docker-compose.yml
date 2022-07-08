@@ -2,8 +2,8 @@ version: "3.9"
 services:
   dat-json:
     build: .
-    command: /data/start.ps1
+    command: ./start.sh
     env_file:
       - .env
     volumes:
-      - ./data:c:/data
+      - ./data:/data

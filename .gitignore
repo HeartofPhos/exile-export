@@ -1,5 +1,6 @@
 data/*
-!data/start.ps1
+!data/start.sh
+!data/split.py
 !data/file-list.txt
 !data/dat-list.txt
 
