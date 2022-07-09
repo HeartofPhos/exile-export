@@ -26,7 +26,7 @@ RUN apt install -y npm
 WORKDIR /ooz
 RUN git clone https://github.com/zao/ooz.git .
 WORKDIR /ooz/build
-RUN cmake .. -D CMAKE_BUILD_RPATH="/ooz/build"
+RUN cmake .. -D CMAKE_BUILD_RPATH='$ORIGIN'
 RUN cmake --build .
 ENV PATH="${PATH}:/ooz/build"
 
