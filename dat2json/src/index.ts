@@ -30,7 +30,8 @@ async function main() {
 
     const extractedDatList = datList.map((x) => `${tempDir}/${x}`);
     const outputDir = process.argv[3];
-    if (!fs.existsSync(outputDir)) await fs.promises.mkdir(outputDir);
+    if (!fs.existsSync(outputDir))
+      await fs.promises.mkdir(outputDir, { recursive: true });
 
     const schema = await getSchema();
     for (const file of extractedDatList) {
