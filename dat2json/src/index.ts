@@ -3,11 +3,16 @@ import { readDatFile } from "./dat/dat-file";
 import fs from "fs";
 import path from "path";
 import { readColumn } from "./dat/reader";
-import { getSchema, importHeaders } from "./schema";
+import { buildSchemaLookup, getSchema } from "./schema";
 import { exec } from "child_process";
 import { promisify } from "util";
 
 const execPromise = promisify(exec);
+
+interface Output {
+  columns: any[];
+  data: any[];
+}
 
 async function main() {
   const tempDir = await fs.promises.mkdtemp("./temp-");
@@ -37,18 +42,31 @@ async function main() {
       const datBuffer = await fs.promises.readFile(file);
 
       const datFile = readDatFile(base, datBuffer);
-      const headerLookup = importHeaders(schema, tableName, datFile);
+      const schemaLookup = buildSchemaLookup(schema, tableName, datFile);
 
-      const output = Array(datFile.rowCount);
+      const output: Output = {
+        columns: [],
+        data: Array(datFile.rowCount),
+      };
+
       for (let i = 0; i < datFile.rowCount; i++) {
-        output[i] = {};
+        output.data[i] = {};
       }
 
-      for (const key in headerLookup) {
-        const header = headerLookup[key];
-        const column = readColumn(header, datFile);
+      let unknownCounter = 0;
+      for (const key in schemaLookup) {
+        const { column, header } = schemaLookup[key];
+        
+        const name = column.name || `Unknown_${unknownCounter++}`
+        output.columns.push({
+          name: name,
+          type: column.type,
+          references: column.references?.table || null,
+        });
+
+        const columns = readColumn(header, datFile);
         for (let i = 0; i < datFile.rowCount; i++) {
-          output[i][key] = column[i];
+          output.data[i][name] = columns[i];
         }
       }
 

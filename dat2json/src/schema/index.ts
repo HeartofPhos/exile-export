@@ -10,12 +10,17 @@ export async function getSchema() {
   return schema;
 }
 
-export function importHeaders(
+export interface ColumnHeader {
+  column: any;
+  header: Header;
+}
+
+export function buildSchemaLookup(
   schema: any,
   name: string,
   datFile: DatFile
-): Record<string, Header> {
-  const headerLookup: Record<string, Header> = {};
+): Record<string, ColumnHeader> {
+  const headerLookup: Record<string, ColumnHeader> = {};
 
   const sch = schema.tables.find((s: any) => s.name === name)!;
   let offset = 0;
@@ -52,7 +57,7 @@ export function importHeaders(
             : undefined,
       },
     };
-    headerLookup[column.name] = header;
+    headerLookup[column.name] = { column, header };
     offset += getHeaderLength(header, datFile);
   }
 

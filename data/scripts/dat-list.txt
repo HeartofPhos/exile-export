@@ -4,3 +4,5 @@ Data/Quest.dat
 Data/QuestRewards.dat
 Data/QuestRewardOffers.dat
 Data/WorldAreas.dat
+Data/GrantedEffects.dat
+Data/GrantedEffectsPerLevel.dat
