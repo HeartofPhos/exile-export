@@ -4,10 +4,6 @@ RUN apt update
 RUN apt install wget -y
 RUN apt install git -y
 
-# PyPoe
-RUN apt install python3 -y
-RUN apt install python3-pip -y
-
 # ooz
 RUN apt install build-essential -y
 RUN apt install cmake -y
@@ -22,8 +18,9 @@ RUN rm packages-microsoft-prod.deb
 RUN apt update
 RUN apt install dotnet-sdk-6.0 -y
 
-# Install PyPoe
-RUN pip install -e git+https://github.com/brather1ng/PyPoE#egg=pypoe[cli]
+# Exporter
+RUN apt install -y nodejs
+RUN apt install -y npm
 
 # Install ooz
 WORKDIR /ooz
@@ -38,5 +35,12 @@ WORKDIR /DepotDownloader
 RUN git clone https://github.com/SteamRE/DepotDownloader.git .
 RUN dotnet publish . -o ./build
 ENV PATH="${PATH}:/DepotDownloader/build"
+
+# Install Exporter
+COPY /dat2json /dat2json
+WORKDIR /dat2json
+RUN npm i
+RUN npm run build
+RUN npm i -g
 
 WORKDIR /data

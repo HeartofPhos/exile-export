@@ -1,5 +1,6 @@
-Characters.dat
-QuestRewards.dat
-QuestRewardOffers.dat
-WorldAreas.dat
-BaseItemTypes.dat
+Data/Characters.dat
+Data/BaseItemTypes.dat
+Data/Quest.dat
+Data/QuestRewards.dat
+Data/QuestRewardOffers.dat
+Data/WorldAreas.dat
