@@ -1,7 +1,4 @@
 data/*
-!data/start.sh
-!data/split.py
-!data/file-list.txt
-!data/dat-list.txt
+!/data/scripts
 
 .env

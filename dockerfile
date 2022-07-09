@@ -29,7 +29,7 @@ RUN pip install -e git+https://github.com/brather1ng/PyPoE#egg=pypoe[cli]
 WORKDIR /ooz
 RUN git clone https://github.com/zao/ooz.git .
 WORKDIR /ooz/build
-RUN cmake ..
+RUN cmake .. -D CMAKE_BUILD_RPATH="/ooz/build"
 RUN cmake --build .
 ENV PATH="${PATH}:/ooz/build"
 

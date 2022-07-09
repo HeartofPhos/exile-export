@@ -1,2 +1,0 @@
-QuestRewards.dat
-Characters.dat
