@@ -68,6 +68,7 @@ async function main() {
           output.columns.push({
             name: name,
             type: column.type,
+            array: column.array,
             references: column.references?.table || null,
           });
 
