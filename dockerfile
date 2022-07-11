@@ -26,6 +26,9 @@ RUN apt install -y npm
 WORKDIR /ooz
 RUN git clone https://github.com/zao/ooz.git .
 WORKDIR /ooz/build
+# Set RPATH so liblibbun.so can load liblibooz.so
+# https://github.com/zao/ooz/blob/dd51c6347f046fea3bd68fbab3485193575a85c2/bun_extract_file.cpp#L88
+# https://github.com/zao/ooz/blob/dd51c6347f046fea3bd68fbab3485193575a85c2/bun.cpp#L117
 RUN cmake .. -D CMAKE_BUILD_RPATH='$ORIGIN'
 RUN cmake --build .
 ENV PATH="${PATH}:/ooz/build"

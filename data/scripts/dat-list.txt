@@ -1,9 +1,7 @@
-Data/Characters.dat
 Data/BaseItemTypes.dat
 Data/SkillGems.dat
 Data/Quest.dat
-Data/QuestRewards.dat
-Data/QuestRewardOffers.dat
 Data/WorldAreas.dat
 Data/GrantedEffects.dat
 Data/GrantedEffectsPerLevel.dat
+Data/RecipeUnlockDisplay.dat
