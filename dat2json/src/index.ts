@@ -28,22 +28,18 @@ async function main() {
       `bun_extract_file extract-files "${gameDir}" "${tempDir}" ${datListArgs}`
     );
 
-    const extractedDatList = datList.map((x) => `${tempDir}/${x}`);
     const outputDir = process.argv[3];
-    if (!fs.existsSync(outputDir))
-      await fs.promises.mkdir(outputDir, { recursive: true });
 
     const schema = await getSchema();
-    for (const file of extractedDatList) {
+    for (const datPath of datList) {
       try {
-        const { base, name } = path.parse(file);
+        console.log(datPath);
 
-        console.log(base);
+        const { name: tableName, ext: datExt } = path.parse(datPath);
+        const extractPath = `${tempDir}/${datPath}`;
 
-        const tableName = name;
-        const datBuffer = await fs.promises.readFile(file);
-
-        const datFile = readDatFile(base, datBuffer);
+        const datBuffer = await fs.promises.readFile(extractPath);
+        const datFile = readDatFile(datExt, datBuffer);
         const schemaLookup = buildSchemaLookup(schema, tableName, datFile);
 
         const output: Output = {
@@ -60,7 +56,7 @@ async function main() {
           const { column, header } = schemaLookup[key];
 
           if (!column) {
-            console.log(`Missing schema data, Table ${file}, Header ${key}`);
+            console.log(`Missing schema data, Table ${datPath}, Header ${key}`);
             continue;
           }
 
@@ -78,12 +74,18 @@ async function main() {
           }
         }
 
+        const outputFilePath = `${outputDir}/${datPath}.json`;
+        const { dir: outputFileDir } = path.parse(outputFilePath);
+
+        if (!fs.existsSync(outputFileDir))
+          await fs.promises.mkdir(outputFileDir, { recursive: true });
+
         await fs.promises.writeFile(
-          `${outputDir}/${tableName}.dat.json`,
+          outputFilePath,
           JSON.stringify(output, undefined, 2)
         );
       } catch (e) {
-        console.log(`Something went wrong while parsing ${file}, ${e}`);
+        console.log(`Something went wrong while parsing ${datPath}, ${e}`);
       }
     }
   } finally {
