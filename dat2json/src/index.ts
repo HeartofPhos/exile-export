@@ -31,6 +31,8 @@ async function main() {
     const outputDir = process.argv[3];
 
     const schema = await getSchema();
+    console.log(`schema.createdAt: ${schema.createdAt}`);
+
     for (const datPath of datList) {
       try {
         console.log(datPath);
