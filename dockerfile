@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:11.6
 
 RUN apt update
 RUN apt install wget -y
@@ -25,6 +25,7 @@ RUN apt install -y npm
 # Install ooz
 WORKDIR /ooz
 RUN git clone https://github.com/zao/ooz.git .
+RUN git reset --hard f8f333d37409f187bc94527b44ac99a999983e09
 WORKDIR /ooz/build
 # Set RPATH so liblibbun.so can load liblibooz.so
 # https://github.com/zao/ooz/blob/dd51c6347f046fea3bd68fbab3485193575a85c2/bun_extract_file.cpp#L88

@@ -15,7 +15,7 @@ interface Output {
 }
 
 async function main() {
-  const tempDir = await fs.promises.mkdtemp("./temp-");
+  const extractDir = await fs.promises.mkdtemp("./temp-");
   try {
     const datListPath = process.argv[4];
     const datList = await fs.promises
@@ -25,7 +25,7 @@ async function main() {
     const gameDir = process.argv[2];
     const datListArgs = datList.map((x) => `"${x}"`).join(" ");
     await execPromise(
-      `bun_extract_file extract-files "${gameDir}" "${tempDir}" ${datListArgs}`
+      `bun_extract_file extract-files "${gameDir}" "${extractDir}" ${datListArgs}`
     );
 
     const outputDir = process.argv[3];
@@ -38,7 +38,7 @@ async function main() {
         console.log(datPath);
 
         const { name: tableName, ext: datExt } = path.parse(datPath);
-        const extractPath = `${tempDir}/${datPath}`;
+        const extractPath = `${extractDir}/${datPath}`;
 
         const datBuffer = await fs.promises.readFile(extractPath);
         const datFile = readDatFile(datExt, datBuffer);
@@ -91,7 +91,7 @@ async function main() {
       }
     }
   } finally {
-    await fs.promises.rmdir(tempDir, { recursive: true });
+    await fs.promises.rmdir(extractDir, { recursive: true });
   }
 }
 
