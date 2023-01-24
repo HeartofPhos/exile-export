@@ -1,7 +1,8 @@
 Data/BaseItemTypes.dat64
-Data/SkillGems.dat64
-Data/Quest.dat64
-Data/WorldAreas.dat64
 Data/GrantedEffects.dat64
 Data/GrantedEffectsPerLevel.dat64
+Data/MapPins.dat64
+Data/Quest.dat64
 Data/RecipeUnlockDisplay.dat64
+Data/SkillGems.dat64
+Data/WorldAreas.dat64
