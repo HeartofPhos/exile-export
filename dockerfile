@@ -46,4 +46,10 @@ RUN npm i
 RUN npm run build
 RUN npm i -g
 
+# ImageMagick
+WORKDIR /imei
+RUN git clone --depth=1 https://github.com/SoftCreatR/imei .
+RUN chmod +x imei.sh
+RUN ./imei.sh
+
 WORKDIR /data

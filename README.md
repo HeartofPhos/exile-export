@@ -16,9 +16,17 @@
 
 - `./scripts/download-game.sh`
 - `./scripts/export-json.sh`
+
+#### Discover & Extract games files with regex
+
 - `bun_extract_file list-files ./game | grep "Data\/[^/]*\.dat64$" > bundle-dat-files.txt`
-- `bun_extract_file list-files ./game | grep "Images\/[^/]*\.dds$" > bundle-dat-files.txt`
-- `cat bundle-dat-files.txt | xargs bun_extract_file extract-files ./game ./exports`
+- `cat bundle-dat-files.txt | xargs -d '\n' bun_extract_file extract-files ./game ./exports`
+
+#### Extract & Convert DDS to PNG
+
+- `bun_extract_file list-files ./game | grep "InGame\/.*\.dds$" > bundle-dat-files.txt`
+- `cat bundle-dat-files.txt | xargs -d '\n' bun_extract_file extract-files ./game ./exports`
+- `find ./exports -name "*.dds" | sed 's/\.dds$//' | xargs -d '\n' -I $ sh -c 'magick "$.dds" "$.png"; rm "$.dds"'`
 
 ## Troubleshooting
 
