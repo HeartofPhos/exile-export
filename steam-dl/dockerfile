@@ -1,0 +1,27 @@
+FROM debian:11.6
+
+RUN apt update
+RUN apt install wget -y
+RUN apt install git -y
+
+# DepotDownloader
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN apt update
+RUN apt install dotnet-sdk-6.0 -y
+
+# Install DepotDownloader
+WORKDIR /DepotDownloader
+RUN git clone --depth=1 https://github.com/SteamRE/DepotDownloader.git .
+RUN dotnet publish . -o ./build
+ENV PATH="${PATH}:/DepotDownloader/build"
+
+WORKDIR /data
+CMD DepotDownloader \
+    -username $STEAM_USERNAME \
+    -password $STEAM_PASSWORD \
+    -app $DOWNLOAD_APP_ID \
+    -depot $DOWNLOAD_DEPOT_ID \
+    -filelist $DOWNLOAD_FILE_LIST \
+    -dir $GAME_DIR
