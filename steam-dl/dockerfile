@@ -17,7 +17,6 @@ RUN git clone --depth=1 https://github.com/SteamRE/DepotDownloader.git .
 RUN dotnet publish . -o ./build
 ENV PATH="${PATH}:/DepotDownloader/build"
 
-WORKDIR /data
 CMD DepotDownloader \
     -username $STEAM_USERNAME \
     -password $STEAM_PASSWORD \

@@ -1,4 +1,4 @@
-data/*
-!/data/scripts
+workspace/*
+!/workspace/dat-list.txt
 
 .env
