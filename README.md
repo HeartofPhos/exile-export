@@ -20,7 +20,7 @@
 
 #### Discover & Extract games files with regex
 
-- `bun_extract_file list-files ./game | grep "Data\/[^/]*\.dat64$" > bundle-files.txt`
+- `bun_extract_file list-files ./game | grep "data\/[^/]*\.dat64$" > bundle-files.txt`
 - `cat bundle-files.txt | xargs -d '\n' bun_extract_file extract-files ./game ./exports`
 
 ## Troubleshooting
