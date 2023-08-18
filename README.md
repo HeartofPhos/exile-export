@@ -25,6 +25,7 @@
 
 ## Troubleshooting
 
+- This assumes the steam version of the game, exporting the GGG launcher version should be possible by replacing `./game` with `./game/Content.ggpk` where applicable
 - `Git Bash` on Windows has issue with paths, the `/workspace` directory will be empty unless `${PWD}` is escaped using `//${PWD}` or by setting `MSYS_NO_PATHCONV=1`
 
 ## References
