@@ -21,7 +21,10 @@ export function buildSchemaLookup(
   datFile: DatFile
 ): Record<string, ColumnHeader> {
   const headerLookup: Record<string, ColumnHeader> = {};
-  const sch = schema.tables.find((s: any) => s.name === name);
+  const sch = schema.tables.find(
+    (s: any) =>
+      s.name.localeCompare(name, undefined, { sensitivity: "accent" }) === 0
+  );
   if (!sch) {
     throw new Error(`Schema missing table ${name}`);
   }

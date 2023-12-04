@@ -37,7 +37,11 @@ async function main() {
       try {
         console.log(datPath);
 
-        const { name: tableName, ext: datExt } = path.parse(datPath);
+        const {
+          name: tableName,
+          ext: datExt,
+          dir: datDir,
+        } = path.parse(datPath);
         const extractPath = `${extractDir}/${datPath}`;
 
         const datBuffer = await fs.promises.readFile(extractPath);

@@ -4,7 +4,7 @@
 
 ### Manual
 
-- Copy the contents of the `Path of Exile` game directory to `./workspace/game`
+- Set `POE_GAME_DIR` enviroment varibale e.g. `POE_GAME_DIR="C:\Program Files (x86)\Steam\steamapps\common\Path of Exile"`
 
 ### Steam Download
 
@@ -13,19 +13,19 @@
 ## Exporting
 
 - Build image `docker build -t poe-export ./poe-export`
-- Run image interactively `docker run --rm -it -v ${PWD}/workspace:/workspace poe-export`
+- Run image interactively `docker run --rm -it -v "${PWD}/workspace":/workspace -v "${POE_GAME_DIR}":/game poe-export`
 - Update `./workspace/dat-list.txt` with the `.dat` files to export
-- Run `dat2json ./game ./exports ./dat-list.txt`
+- Run `dat2json /game ./exports ./dat-list.txt`
 - Data will be exported to `./workspace/exports`
 
 #### Discover & Extract games files with regex
 
-- `bun_extract_file list-files ./game | grep "data\/[^/]*\.dat64$" > bundle-files.txt`
-- `cat bundle-files.txt | xargs -d '\n' bun_extract_file extract-files ./game ./exports`
+- `bun_extract_file list-files /game | grep "data\/[^/]*\.dat64$" > bundle-files.txt`
+- `cat bundle-files.txt | xargs -d '\n' bun_extract_file extract-files /game ./exports`
 
 ## Troubleshooting
 
-- This assumes the steam version of the game, exporting the GGG launcher version should be possible by replacing `./game` with `./game/Content.ggpk` where applicable
+- This assumes the steam version of the game, exporting the GGG launcher version should be possible by replacing `/game` with `/game/Content.ggpk` where applicable
 - `Git Bash` on Windows has issue with paths, the `/workspace` directory will be empty unless `${PWD}` is escaped using `//${PWD}` or by setting `MSYS_NO_PATHCONV=1`
 
 ## References
