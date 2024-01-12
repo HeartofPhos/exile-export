@@ -1,5 +1,6 @@
 data/BaseItemTypes.dat64
 data/Characters.dat64
+data/GemEffects.dat64
 data/GrantedEffects.dat64
 data/GrantedEffectsPerLevel.dat64
 data/MapPins.dat64
