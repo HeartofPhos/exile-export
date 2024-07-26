@@ -1,27 +1,40 @@
 # Getting Started
 
-## Game Data
+## Exporting
 
-### Manual
-
-- Set `POE_GAME_DIR` enviroment varibale e.g. `POE_GAME_DIR="C:\Program Files (x86)\Steam\steamapps\common\Path of Exile"`
+### Local
+```sh
+# build image
+docker build -t poe-export ./poe-export
+# set env variable
+POE_GAME_DIR="C:\Program Files (x86)\Steam\steamapps\common\Path of Exile"
+# run image interactively
+docker run --rm -it -v "${PWD}/workspace":/workspace -v "${POE_GAME_DIR}":/game poe-export
+# extract files
+dat2json /game ./exports ./dat-list.txt
+```
 
 ### Steam Download
 
 - See [steam-dl](steam-dl/README.md)
 
-## Exporting
-
-- Build image `docker build -t poe-export ./poe-export`
-- Run image interactively `docker run --rm -it -v "${PWD}/workspace":/workspace -v "${POE_GAME_DIR}":/game poe-export`
-- Update `./workspace/dat-list.txt` with the `.dat` files to export
-- Run `dat2json /game ./exports ./dat-list.txt`
-- Data will be exported to `./workspace/exports`
+```sh
+# build image
+docker build -t poe-export ./poe-export
+# run image interactively
+docker run --rm -it -v "${PWD}/workspace":/workspace poe-export`
+# extract files
+dat2json /game ./exports ./dat-list.txt
+```
 
 #### Discover & Extract games files with regex
 
-- `bun_extract_file list-files /game | grep "data\/[^/]*\.dat64$" > bundle-files.txt`
-- `cat bundle-files.txt | xargs -d '\n' bun_extract_file extract-files /game ./exports`
+```sh
+# write all dat64 filenames to bundle-files.txt
+bun_extract_file list-files /game | grep "data\/[^/]*\.dat64$" > bundle-files.txt
+# extract all files in bundle-files.txt
+cat bundle-files.txt | xargs -d '\n' bun_extract_file extract-files /game ./exports
+```
 
 ## Troubleshooting
 
