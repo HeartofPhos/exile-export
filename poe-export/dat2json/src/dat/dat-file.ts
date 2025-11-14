@@ -18,27 +18,31 @@ export interface DatFile {
 
 export function readDatFile(
   filenameOrExt: string,
-  content: ArrayBuffer
+  content: ArrayBufferLike
 ): DatFile {
   if (content.byteLength < MIN_FILE_SIZE) {
     throw new Error("Invalid file size.");
   }
-  if (!filenameOrExt.endsWith("dat64")) {
-    throw new Error("Only dat64 files are supported.");
+  if (!filenameOrExt.endsWith("datc64")) {
+    throw new Error("Only datc64 files are supported.");
   }
 
   const file = new Uint8Array(content);
   const fileReader = new DataView(file.buffer);
 
   const rowCount = fileReader.getUint32(0, true);
-  const boundary = findSequence(file, VDATA_MAGIC);
+  const boundary = findAlignedSequence(
+    file.subarray(INT_ROWCOUNT),
+    VDATA_MAGIC,
+    rowCount
+  );
   if (boundary === -1) {
     throw new Error("Invalid file: section with variable data not found.");
   }
-  const rowLength = rowCount > 0 ? (boundary - INT_ROWCOUNT) / rowCount : 0;
+  const rowLength = rowCount > 0 ? boundary / rowCount : 0;
 
-  const dataFixed = file.subarray(INT_ROWCOUNT, boundary);
-  const dataVariable = file.subarray(boundary);
+  const dataFixed = file.subarray(INT_ROWCOUNT, INT_ROWCOUNT + boundary);
+  const dataVariable = file.subarray(INT_ROWCOUNT + boundary);
 
   const readerFixed = new DataView(
     dataFixed.buffer,
@@ -61,4 +65,22 @@ export function readDatFile(
     readerVariable,
     fieldSize: FIELD_SIZE,
   };
+}
+
+function findAlignedSequence(
+  data: Uint8Array,
+  sequence: number[],
+  elementCount: number
+): number {
+  let fromIndex = 0;
+  for (;;) {
+    const idx = findSequence(data, sequence, fromIndex);
+    if (idx === -1) return -1;
+
+    if (elementCount === 0 || idx % elementCount === 0) {
+      return idx;
+    } else {
+      fromIndex = idx + 1;
+    }
+  }
 }

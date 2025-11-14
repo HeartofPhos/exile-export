@@ -31,7 +31,7 @@ dat2json /game ./exports ./dat-list.txt
 
 ```sh
 # write all dat64 filenames to bundle-files.txt
-bun_extract_file list-files /game | grep "data\/[^/]*\.dat64$" > bundle-files.txt
+bun_extract_file list-files /game | grep "data\/[^/]*\.datc64$" > bundle-files.txt
 # extract all files in bundle-files.txt
 cat bundle-files.txt | xargs -d '\n' bun_extract_file extract-files /game ./exports
 ```

@@ -25,9 +25,6 @@ export function buildSchemaLookup(
     (s: any) =>
       s.name.localeCompare(name, undefined, { sensitivity: "accent" }) === 0
   );
-  if (!sch) {
-    throw new Error(`Schema missing table ${name}`);
-  }
 
   let offset = 0;
   for (const column of sch.columns) {
@@ -35,14 +32,18 @@ export function buildSchemaLookup(
       offset,
       type: {
         array: column.array,
+        interval: column.interval,
         integer:
           // column.type === 'u8' ? { unsigned: true, size: 1 }
-          // : column.type === 'u16' ? { unsigned: true, size: 2 }
-          // : column.type === 'u32' ? { unsigned: true, size: 4 }
-          // : column.type === 'u64' ? { unsigned: true, size: 8 }
-          // : column.type === 'i8' ? { unsigned: false, size: 1 }
-          // : column.type === 'i16' ? { unsigned: false, size: 2 }
-          column.type === "i32"
+          column.type === "u16"
+            ? { unsigned: true, size: 2 }
+            : column.type === "u32"
+            ? { unsigned: true, size: 4 }
+            : // : column.type === 'u64' ? { unsigned: true, size: 8 }
+            // : column.type === 'i8' ? { unsigned: false, size: 1 }
+            column.type === "i16"
+            ? { unsigned: false, size: 2 }
+            : column.type === "i32"
             ? { unsigned: false, size: 4 }
             : // : column.type === 'i64' ? { unsigned: false, size: 8 }
             column.type === "enumrow"
@@ -63,6 +64,7 @@ export function buildSchemaLookup(
             : undefined,
       },
     };
+
     headerLookup[column.name] = { column, header };
     offset += getHeaderLength(header, datFile);
   }
